@@ -166,3 +166,14 @@ For production, update `dreamstay.app.jwtSecret`, database credentials, and `dre
 - JWT tokens are valid for 24 hours by default (`dreamstay.app.jwtExpirationMs`).
 - Room availability search excludes rooms with any non-cancelled booking that overlaps the requested date range.
 - The Angular app uses an `HttpInterceptor` to attach the JWT to every request and to log the user out automatically on a 401 response.
+
+
+
+
+<img width="1240" height="1702" alt="DreamStay_HomePage" src="https://github.com/user-attachments/assets/ad2f8b41-2043-4663-8229-69514c85cdac" />
+<img width="1240" height="2035" alt="DreamStay_Rooms" src="https://github.com/user-attachments/assets/feed1bbe-33c8-495b-96e8-68874f690d8b" />
+<img width="1240" height="972" alt="DreamStay_User_RoomBooking" src="https://github.com/user-attachments/assets/5a31bf36-410a-439d-8503-db7ff06ac7c2" />
+<img width="1240" height="1385" alt="DreamStay_User_MyBookings" src="https://github.com/user-attachments/assets/f6c562cd-ca12-4cc0-a5b1-c9439286eacd" />
+<img width="1240" height="1105" alt="DreamStay-Admin_ManageBookings" src="https://github.com/user-attachments/assets/d5c92e01-b1b1-4bcf-be7a-c9e57d924f97" />
+<img width="1240" height="837" alt="DreamStayAdmin_AllBookings" src="https://github.com/user-attachments/assets/ed6e447b-79b3-4bed-9ce2-0d8ae6f46b8d" />
+<img width="1240" height="626" alt="DreamStay_Admin_MyBookings" src="https://github.com/user-attachments/assets/8a5c001f-7c14-457d-ae5e-37dcd6fe2acb" />
