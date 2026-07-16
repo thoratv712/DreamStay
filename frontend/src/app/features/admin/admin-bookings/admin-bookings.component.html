@@ -1,0 +1,56 @@
+<section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+  <h1 class="font-display text-3xl font-bold text-gray-900">All Bookings</h1>
+  <p class="mt-1 text-sm text-gray-500">Manage guest reservations across DreamStay</p>
+
+  <div class="mt-6 flex flex-wrap gap-2">
+    <button (click)="selectStatus('ALL')"
+            [class.bg-primary-700]="selectedStatus === 'ALL'" [class.text-white]="selectedStatus === 'ALL'"
+            [class.bg-gray-100]="selectedStatus !== 'ALL'" [class.text-gray-700]="selectedStatus !== 'ALL'"
+            class="badge">All</button>
+    <button *ngFor="let status of statuses" (click)="selectStatus(status)"
+            [class.bg-primary-700]="selectedStatus === status" [class.text-white]="selectedStatus === status"
+            [class.bg-gray-100]="selectedStatus !== status" [class.text-gray-700]="selectedStatus !== status"
+            class="badge">{{ status }}</button>
+  </div>
+
+  <div *ngIf="loading" class="mt-10 text-center text-gray-500">Loading bookings...</div>
+  <div *ngIf="errorMessage" class="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ errorMessage }}</div>
+
+  <div *ngIf="!loading" class="mt-6 overflow-x-auto rounded-xl border border-gray-100">
+    <table class="min-w-full divide-y divide-gray-100 bg-white text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Guest</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Room</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Check-in</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Check-out</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Total</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
+          <th class="px-4 py-3 text-right font-semibold text-gray-600">Update</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let booking of filteredBookings">
+          <td class="px-4 py-3 font-medium text-gray-900">{{ booking.userFullName }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ booking.roomNumber }} ({{ booking.roomType }})</td>
+          <td class="px-4 py-3 text-gray-600">{{ booking.checkInDate }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ booking.checkOutDate }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ booking.totalPrice | currency:'INR':'symbol':'1.0-0' }}</td>
+          <td class="px-4 py-3">
+            <span class="badge" [ngClass]="statusBadgeClass(booking.status)">{{ booking.status }}</span>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <select
+              [disabled]="updatingId === booking.id"
+              (change)="updateStatus(booking, $any($event.target).value)"
+              class="rounded-lg border border-gray-300 px-2 py-1 text-xs">
+              <option value="" disabled selected>Change status</option>
+              <option *ngFor="let status of statuses" [value]="status">{{ status }}</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="filteredBookings.length === 0" class="px-4 py-10 text-center text-gray-500">No bookings found.</p>
+  </div>
+</section>

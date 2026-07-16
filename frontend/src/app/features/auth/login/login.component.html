@@ -1,0 +1,45 @@
+<div class="flex min-h-[80vh] items-center justify-center bg-gray-50 px-4 py-12">
+  <div class="w-full max-w-md">
+    <div class="card p-8">
+      <div class="mb-6 text-center">
+        <h1 class="font-display text-2xl font-bold text-gray-900">Welcome Back</h1>
+        <p class="mt-1 text-sm text-gray-500">Sign in to continue to DreamStay</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+        {{ errorMessage }}
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">Email Address</label>
+          <input type="email" formControlName="email" class="input-field" placeholder="you@example.com"/>
+          <p *ngIf="f['email'].touched && f['email'].invalid" class="mt-1 text-xs text-red-600">
+            Please enter a valid email address.
+          </p>
+        </div>
+
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" formControlName="password" class="input-field" placeholder="••••••••"/>
+          <p *ngIf="f['password'].touched && f['password'].invalid" class="mt-1 text-xs text-red-600">
+            Password is required.
+          </p>
+        </div>
+
+        <button type="submit" [disabled]="loading" class="btn-primary w-full">
+          {{ loading ? 'Signing in...' : 'Sign In' }}
+        </button>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-gray-500">
+        Don't have an account?
+        <a routerLink="/register" class="font-semibold text-primary-700 hover:underline">Create one</a>
+      </p>
+
+      <div class="mt-4 rounded-lg bg-primary-50 px-4 py-3 text-xs text-primary-700">
+        Demo admin login: <strong>admin&#64;dreamstay.com</strong> / <strong>admin123</strong>
+      </div>
+    </div>
+  </div>
+</div>

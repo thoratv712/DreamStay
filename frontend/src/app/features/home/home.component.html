@@ -1,0 +1,87 @@
+<!-- Hero -->
+<section class="relative overflow-hidden bg-primary-900">
+  <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600"
+       alt="Luxury hotel" class="absolute inset-0 h-full w-full object-cover opacity-30"/>
+  <div class="absolute inset-0 bg-gradient-to-t from-primary-900 via-primary-900/70 to-primary-900/40"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+    <p class="text-sm font-semibold uppercase tracking-widest text-gold-400">Welcome to DreamStay</p>
+    <h1 class="mt-3 max-w-2xl font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl lg:text-6xl">
+      Find your perfect stay, anywhere your journey leads
+    </h1>
+    <p class="mt-4 max-w-xl text-lg text-gray-200">
+      Handpicked rooms, transparent pricing, and effortless booking — DreamStay makes every stay feel like home.
+    </p>
+
+    <!-- Search Card -->
+    <div class="mt-10 rounded-2xl bg-white p-5 shadow-xl sm:p-6">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Check-in</label>
+          <input type="date" formControlName="checkIn" [min]="minDate" class="input-field"/>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Check-out</label>
+          <input type="date" formControlName="checkOut" [min]="minDate" class="input-field"/>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Guests</label>
+          <select formControlName="guests" class="input-field">
+            <option [value]="1">1 Guest</option>
+            <option [value]="2">2 Guests</option>
+            <option [value]="3">3 Guests</option>
+            <option [value]="4">4 Guests</option>
+            <option [value]="5">5+ Guests</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button type="submit" class="btn-gold w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
+            Search Rooms
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Why DreamStay -->
+<section class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+  <div class="text-center">
+    <h2 class="font-display text-3xl font-bold text-gray-900">Why Choose DreamStay</h2>
+    <p class="mt-2 text-gray-500">Everything you need for a seamless, comfortable stay</p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
+    <div class="text-center">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="mt-4 font-semibold text-gray-900">Best Price Guarantee</h3>
+      <p class="mt-2 text-sm text-gray-500">Transparent, competitive rates with no hidden fees on every booking.</p>
+    </div>
+    <div class="text-center">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3 class="mt-4 font-semibold text-gray-900">Instant Confirmation</h3>
+      <p class="mt-2 text-sm text-gray-500">Book in seconds and get immediate confirmation for your stay.</p>
+    </div>
+    <div class="text-center">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary-50 text-primary-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4.5 8-11.8A8 8 0 004 10.2C4 17.5 12 22 12 22z"/></svg>
+      </div>
+      <h3 class="mt-4 font-semibold text-gray-900">Handpicked Rooms</h3>
+      <p class="mt-2 text-sm text-gray-500">From cozy singles to luxury suites, curated for comfort and quality.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-primary-50">
+  <div class="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
+    <h2 class="font-display text-3xl font-bold text-gray-900">Ready to book your dream stay?</h2>
+    <p class="mt-2 text-gray-500">Explore our full collection of rooms and suites today.</p>
+    <a routerLink="/rooms" class="btn-primary mt-6 inline-flex">Browse All Rooms</a>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+<div class="card sticky top-24 p-6">
+  <h3 class="font-display text-lg font-bold text-gray-900">Book This Room</h3>
+  <p class="mt-1 text-2xl font-bold text-primary-800">{{ room.pricePerNight | currency:'INR':'symbol':'1.0-0' }}<span class="text-sm font-normal text-gray-500">/night</span></p>
+
+  <div *ngIf="errorMessage" class="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="mt-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">{{ successMessage }}</div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-4 space-y-4">
+    <div>
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Check-in</label>
+      <input type="date" formControlName="checkInDate" [min]="minDate" class="input-field"/>
+    </div>
+    <div>
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Check-out</label>
+      <input type="date" formControlName="checkOutDate" [min]="minDate" class="input-field"/>
+    </div>
+    <div>
+      <label class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500">Guests</label>
+      <input type="number" formControlName="guests" min="1" [max]="room.capacity" class="input-field"/>
+      <p class="mt-1 text-xs text-gray-400">Maximum {{ room.capacity }} guests for this room</p>
+    </div>
+
+    <div *ngIf="nights > 0" class="rounded-lg bg-gray-50 p-4 text-sm">
+      <div class="flex justify-between text-gray-600">
+        <span>{{ room.pricePerNight | currency:'INR':'symbol':'1.0-0' }} x {{ nights }} night(s)</span>
+        <span>{{ totalPrice  | currency:'INR':'symbol':'1.0-0'   }}</span>
+      </div>
+      <div class="mt-2 flex justify-between border-t border-gray-200 pt-2 font-semibold text-gray-900">
+        <span>Total</span>
+        <span>{{totalPrice  | currency:'INR':'symbol':'1.0-0'  }} </span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="loading || !room.available" class="btn-primary w-full">
+      <ng-container *ngIf="!authService.isLoggedIn(); else authedLabel">Sign In to Book</ng-container>
+      <ng-template #authedLabel>{{ loading ? 'Booking...' : (room.available ? 'Confirm Booking' : 'Room Unavailable') }}</ng-template>
+    </button>
+  </form>
+</div>

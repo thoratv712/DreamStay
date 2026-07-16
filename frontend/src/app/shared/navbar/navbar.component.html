@@ -1,0 +1,54 @@
+<header class="sticky top-0 z-40 border-b border-gray-100 bg-white/90 backdrop-blur">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <a routerLink="/" class="flex items-center gap-2">
+      <img src="logo.png" alt="DreamStay" class="h-9 w-9 rounded-lg object-cover"/>
+      <span class="font-display text-xl font-bold tracking-tight text-primary-900">DreamStay</span>
+    </a>
+
+    <div class="hidden items-center gap-8 md:flex">
+      <a routerLink="/" routerLinkActive="text-primary-700" [routerLinkActiveOptions]="{exact:true}" class="text-sm font-medium text-gray-600 hover:text-primary-700">Home</a>
+      <a routerLink="/rooms" routerLinkActive="text-primary-700" class="text-sm font-medium text-gray-600 hover:text-primary-700">Rooms</a>
+      <a *ngIf="authService.isLoggedIn()" routerLink="/my-bookings" routerLinkActive="text-primary-700" class="text-sm font-medium text-gray-600 hover:text-primary-700">My Bookings</a>
+      <ng-container *ngIf="authService.isAdmin()">
+        <a routerLink="/admin/rooms" routerLinkActive="text-primary-700" class="text-sm font-medium text-gray-600 hover:text-primary-700">Manage Rooms</a>
+        <a routerLink="/admin/bookings" routerLinkActive="text-primary-700" class="text-sm font-medium text-gray-600 hover:text-primary-700">All Bookings</a>
+      </ng-container>
+    </div>
+
+    <div class="hidden items-center gap-3 md:flex">
+      <ng-container *ngIf="!authService.isLoggedIn(); else loggedIn">
+        <a routerLink="/login" class="btn-secondary">Sign In</a>
+        <a routerLink="/register" class="btn-primary">Get Started</a>
+      </ng-container>
+      <ng-template #loggedIn>
+        <span class="text-sm text-gray-600">Hi, <span class="font-semibold text-gray-900">{{ currentUser?.fullName }}</span></span>
+        <button (click)="logout()" class="btn-secondary">Sign Out</button>
+      </ng-template>
+    </div>
+
+    <button (click)="toggleMobileMenu()" class="md:hidden" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </nav>
+
+  <div *ngIf="mobileMenuOpen" class="border-t border-gray-100 bg-white px-4 pb-4 md:hidden">
+    <div class="flex flex-col gap-3 pt-3">
+      <a routerLink="/" (click)="closeMobileMenu()" class="text-sm font-medium text-gray-700">Home</a>
+      <a routerLink="/rooms" (click)="closeMobileMenu()" class="text-sm font-medium text-gray-700">Rooms</a>
+      <a *ngIf="authService.isLoggedIn()" routerLink="/my-bookings" (click)="closeMobileMenu()" class="text-sm font-medium text-gray-700">My Bookings</a>
+      <ng-container *ngIf="authService.isAdmin()">
+        <a routerLink="/admin/rooms" (click)="closeMobileMenu()" class="text-sm font-medium text-gray-700">Manage Rooms</a>
+        <a routerLink="/admin/bookings" (click)="closeMobileMenu()" class="text-sm font-medium text-gray-700">All Bookings</a>
+      </ng-container>
+      <hr/>
+      <ng-container *ngIf="!authService.isLoggedIn(); else mobileLoggedIn">
+        <a routerLink="/login" (click)="closeMobileMenu()" class="btn-secondary w-full">Sign In</a>
+        <a routerLink="/register" (click)="closeMobileMenu()" class="btn-primary w-full">Get Started</a>
+      </ng-container>
+      <ng-template #mobileLoggedIn>
+        <span class="text-sm text-gray-600">Hi, {{ currentUser?.fullName }}</span>
+        <button (click)="logout()" class="btn-secondary w-full">Sign Out</button>
+      </ng-template>
+    </div>
+  </div>
+</header>

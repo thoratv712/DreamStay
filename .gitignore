@@ -1,0 +1,16 @@
+# Backend
+backend/target/
+backend/*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/*.log
+frontend/package-lock.json
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.iml

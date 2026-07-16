@@ -1,0 +1,109 @@
+<section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <h1 class="font-display text-3xl font-bold text-gray-900">Manage Rooms</h1>
+      <p class="mt-1 text-sm text-gray-500">Create, edit, and remove rooms from DreamStay</p>
+    </div>
+    <button (click)="openCreateModal()" class="btn-primary">+ Add Room</button>
+  </div>
+
+  <div *ngIf="successMessage" class="mt-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ errorMessage }}</div>
+
+  <div *ngIf="loading" class="mt-10 text-center text-gray-500">Loading rooms...</div>
+
+  <div *ngIf="!loading" class="mt-6 overflow-x-auto rounded-xl border border-gray-100">
+    <table class="min-w-full divide-y divide-gray-100 bg-white text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Room</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Type</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Price/Night</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Capacity</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
+          <th class="px-4 py-3 text-right font-semibold text-gray-600">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let room of rooms">
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-3">
+              <img [src]="room.imageUrl" class="h-10 w-10 rounded-lg object-cover"/>
+              <span class="font-medium text-gray-900">Room {{ room.roomNumber }}</span>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-gray-600">{{ room.type }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ room.pricePerNight | currency:'INR':'symbol':'1.0-0' }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ room.capacity }}</td>
+          <td class="px-4 py-3">
+            <span class="badge" [ngClass]="room.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+              {{ room.available ? 'Available' : 'Unavailable' }}
+            </span>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <button (click)="openEditModal(room)" class="font-medium text-primary-700 hover:underline">Edit</button>
+            <button (click)="deleteRoom(room)" class="ml-4 font-medium text-red-600 hover:underline">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+  <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-6 shadow-xl">
+    <h2 class="font-display text-xl font-bold text-gray-900">{{ editingRoomId ? 'Edit Room' : 'Add New Room' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="saveRoom()" class="mt-4 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Room Number</label>
+          <input type="text" formControlName="roomNumber" class="input-field"/>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Type</label>
+          <select formControlName="type" class="input-field">
+            <option *ngFor="let type of roomTypes" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Price/Night (₹)</label>
+          <input type="number" formControlName="pricePerNight" class="input-field"/>
+        </div>
+        <div>
+          <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Capacity</label>
+          <input type="number" formControlName="capacity" class="input-field"/>
+        </div>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Image URL</label>
+        <input type="text" formControlName="imageUrl" class="input-field" placeholder="https://..."/>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Description</label>
+        <textarea formControlName="description" rows="3" class="input-field"></textarea>
+      </div>
+
+      <div>
+        <label class="mb-1 block text-xs font-semibold uppercase text-gray-500">Amenities (comma-separated)</label>
+        <input type="text" formControlName="amenitiesText" class="input-field" placeholder="WiFi, TV, Mini Bar"/>
+      </div>
+
+      <label class="flex items-center gap-2 text-sm text-gray-700">
+        <input type="checkbox" formControlName="available" class="h-4 w-4 rounded border-gray-300"/>
+        Available for booking
+      </label>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button" (click)="closeModal()" class="btn-secondary">Cancel</button>
+        <button type="submit" [disabled]="saving" class="btn-primary">{{ saving ? 'Saving...' : 'Save Room' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

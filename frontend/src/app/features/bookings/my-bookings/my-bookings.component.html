@@ -1,0 +1,52 @@
+<section class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+  <h1 class="font-display text-3xl font-bold text-gray-900">My Bookings</h1>
+  <p class="mt-1 text-sm text-gray-500">View and manage your reservations</p>
+
+  <div *ngIf="loading" class="mt-10 text-center text-gray-500">Loading your bookings...</div>
+  <div *ngIf="errorMessage" class="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ errorMessage }}</div>
+
+  <div *ngIf="!loading && !errorMessage && bookings.length === 0" class="mt-10 text-center">
+    <p class="text-gray-500">You have no bookings yet.</p>
+    <a routerLink="/rooms" class="btn-primary mt-4 inline-flex">Browse Rooms</a>
+  </div>
+
+  <div class="mt-8 space-y-4">
+    <div *ngFor="let booking of bookings" class="card flex flex-col gap-4 p-5 sm:flex-row">
+      <img [src]="booking.roomImageUrl" [alt]="booking.roomType" class="h-32 w-full rounded-lg object-cover sm:w-48"/>
+      <div class="flex-1">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <h3 class="font-display text-lg font-bold text-gray-900">Room {{ booking.roomNumber }} &middot; {{ booking.roomType }}</h3>
+            <p class="text-sm text-gray-500">Booking #{{ booking.id }}</p>
+          </div>
+          <span class="badge" [ngClass]="statusBadgeClass(booking.status)">{{ booking.status }}</span>
+        </div>
+
+        <div class="mt-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+          <div>
+            <p class="text-xs uppercase text-gray-400">Check-in</p>
+            <p class="font-medium text-gray-800">{{ booking.checkInDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs uppercase text-gray-400">Check-out</p>
+            <p class="font-medium text-gray-800">{{ booking.checkOutDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs uppercase text-gray-400">Guests</p>
+            <p class="font-medium text-gray-800">{{ booking.guests }}</p>
+          </div>
+          <div>
+            <p class="text-xs uppercase text-gray-400">Total</p>
+            <p class="font-medium text-gray-800">{{ booking.totalPrice | currency:'INR':'symbol':'1.0-0' }}</p>
+          </div>
+        </div>
+
+        <button *ngIf="booking.status === 'CONFIRMED' || booking.status === 'PENDING'"
+                (click)="cancelBooking(booking)" [disabled]="cancellingId === booking.id"
+                class="btn-secondary mt-4 text-red-600 hover:bg-red-50">
+          {{ cancellingId === booking.id ? 'Cancelling...' : 'Cancel Booking' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
